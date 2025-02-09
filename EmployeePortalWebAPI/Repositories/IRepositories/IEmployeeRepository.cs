@@ -5,6 +5,7 @@ namespace EmployeePortalWebAPI.Repositories.IRepositories;
 public interface IEmployeeRepository
 {
     Task<List<EmployeeEntity>> GetAllAsync();
+    Task<List<EmployeeEntity>> GetTopTenEarliestEmpolyessAsync();
     Task<EmployeeEntity> GetById(Guid id);
     Task<EmployeeEntity> UpdateEmployee(EmployeeEntity entity);
     Task DeleteEmployee(Guid id);

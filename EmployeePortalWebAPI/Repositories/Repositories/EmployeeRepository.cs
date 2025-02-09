@@ -33,6 +33,14 @@ public class EmployeeRepository : IEmployeeRepository
         var employees = await _empolyeePortalDbContext.Employees.Where(e => e.IsDeleted == false).ToListAsync();
         return employees;
     }
+    public async Task<List<EmployeeEntity>> GetTopTenEarliestEmpolyessAsync()
+    {
+        var employees = await _empolyeePortalDbContext.Employees.Where(e => e.IsDeleted == false)
+            .OrderBy(e => e.CreatedAt)
+            .Take(10)
+            .ToListAsync();
+        return employees;
+    }
 
     public async Task<EmployeeEntity> GetById(Guid id)
     {
