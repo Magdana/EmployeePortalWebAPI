@@ -6,6 +6,7 @@ public interface IEmployeeRepository
 {
     Task<List<EmployeeEntity>> GetAllAsync();
     Task<List<EmployeeEntity>> GetTopTenEarliestEmpolyessAsync();
+    Task<List<EmployeeEntity>> GetTopHighSalaryEmployeesAsync();
     Task<EmployeeEntity> GetById(Guid id);
     Task<EmployeeEntity> UpdateEmployee(EmployeeEntity entity);
     Task DeleteEmployee(Guid id);

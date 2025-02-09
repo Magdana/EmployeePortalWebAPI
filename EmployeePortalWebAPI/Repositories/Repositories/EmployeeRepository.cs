@@ -42,6 +42,26 @@ public class EmployeeRepository : IEmployeeRepository
         return employees;
     }
 
+    public async Task<List<EmployeeEntity>> GetTopHighSalaryEmployeesAsync()
+    {
+        var employees = await _empolyeePortalDbContext.Employees
+            .Where(e => !e.IsDeleted)
+            .OrderByDescending(e => e.Salary)
+            .ToListAsync();
+
+        var orderedList = new List<EmployeeEntity>();
+
+        if (employees.Count == 0) return orderedList;
+
+        for (int i = 0; i < employees.Count; i++)
+        {
+            orderedList.Add(employees[i]);
+            if ((employees[i].Salary > employees[i + 1].Salary)) break;
+        }
+
+        return orderedList;
+    }
+
     public async Task<EmployeeEntity> GetById(Guid id)
     {
         var employee = await _empolyeePortalDbContext.Employees.Where(e => e.IsDeleted == false).FirstOrDefaultAsync(e => e.Id == id);

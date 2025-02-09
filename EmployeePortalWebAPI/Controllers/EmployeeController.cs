@@ -46,6 +46,21 @@ public class EmployeeController : ControllerBase
 
     }
 
+    [HttpGet]
+    public async Task<ActionResult<List<EmployeeEntity>>> GetTopHighSalaryEmployeesAsync()
+    {
+        try
+        {
+            var employees = await _employeeService.GetTopHighSalaryEmployeesAsync();
+            return Ok(employees);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<EmployeeEntity>> GetEmployeeById(Guid id)
     {

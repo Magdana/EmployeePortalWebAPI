@@ -42,6 +42,12 @@ public class EmployeeService : IEmployeeService
         var employees = await _employeeRepository.GetTopTenEarliestEmpolyessAsync();
         return employees;
     }
+
+    public async Task<List<EmployeeEntity>> GetTopHighSalaryEmployeesAsync()
+    {
+        var employees = await _employeeRepository.GetTopHighSalaryEmployeesAsync();
+        return employees;
+    }
     public async Task<EmployeeEntity> GetById(Guid id)
     {
         var employee = await _employeeRepository.GetById(id);
