@@ -14,6 +14,8 @@ builder.Services.AddDbContext<EmpolyeePortalDbContext>(options =>
 
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 // Add services to the container.
 
 builder.Services.AddControllers();

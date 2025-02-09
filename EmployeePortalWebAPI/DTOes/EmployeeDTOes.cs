@@ -12,7 +12,7 @@ public class EmployeeDTOes
         public string Email { get; set; } = string.Empty;
         public string PhoneNumber { get; set; } = string.Empty;
         public decimal Salary { get; set; }
-        public CompanyEntity? Company { get; set; }
+        public Guid? CompanyId { get; set; }
     }
     public class EmployeeUpdateDTO
     {
@@ -21,6 +21,6 @@ public class EmployeeDTOes
         public string? Email { get; set; } = string.Empty;
         public string? PhoneNumber { get; set; } = string.Empty;
         public decimal? Salary { get; set; }
-        public CompanyEntity? Company { get; set; }
+        public Guid? CompanyId { get; set; }
     }
 }

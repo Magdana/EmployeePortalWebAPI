@@ -19,7 +19,8 @@ public class EmployeeService : IEmployeeService
             Name = entity.Name,
             Email = entity.Email,
             PhoneNumber = entity.PhoneNumber,
-            Salary = entity.Salary
+            Salary = entity.Salary,
+            CompanyId=entity.CompanyId
         };
         await _employeeRepository.AddEmployee(employee);
         return await Task.FromResult(employee);
@@ -51,6 +52,7 @@ public class EmployeeService : IEmployeeService
         employee.Email=entity?.Email ?? employee.Email;
         employee.PhoneNumber = entity?.PhoneNumber ?? employee.PhoneNumber;
         employee.Salary = entity?.Salary ?? employee.Salary;
+        employee.CompanyId=entity?.CompanyId ?? employee.CompanyId;
         await _employeeRepository.UpdateEmployee(employee);
         return employee;
     }
