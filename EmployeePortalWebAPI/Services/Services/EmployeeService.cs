@@ -48,6 +48,13 @@ public class EmployeeService : IEmployeeService
         var employees = await _employeeRepository.GetTopHighSalaryEmployeesAsync();
         return employees;
     }
+
+    public async Task<List<EmployeeEntity>> GetSoftDeletedEmployeesAsync()
+    {
+        var employees = await _employeeRepository.GetSoftDeletedEmployeesAsync();
+        return employees;
+    }
+
     public async Task<EmployeeEntity> GetById(Guid id)
     {
         var employee = await _employeeRepository.GetById(id);

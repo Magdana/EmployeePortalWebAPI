@@ -62,6 +62,11 @@ public class EmployeeRepository : IEmployeeRepository
         return orderedList;
     }
 
+    public async Task<List<EmployeeEntity>> GetSoftDeletedEmployeesAsync()
+    {
+        var employees = await _empolyeePortalDbContext.Employees.Where(e => e.IsDeleted == true).ToListAsync();
+        return employees;
+    }
     public async Task<EmployeeEntity> GetById(Guid id)
     {
         var employee = await _empolyeePortalDbContext.Employees.Where(e => e.IsDeleted == false).FirstOrDefaultAsync(e => e.Id == id);
