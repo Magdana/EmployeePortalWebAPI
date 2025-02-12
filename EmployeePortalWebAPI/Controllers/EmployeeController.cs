@@ -3,6 +3,7 @@ using EmployeePortalWebAPI.Entities;
 using EmployeePortalWebAPI.Services.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeePortalWebAPI.Controllers;
 
@@ -12,9 +13,12 @@ namespace EmployeePortalWebAPI.Controllers;
 public class EmployeeController : ControllerBase
 {
     private readonly IEmployeeService _employeeService;
-    public EmployeeController(IEmployeeService employeeService)
+    private readonly ILogger<EmployeeController> _logger;
+    public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger)
     {
         _employeeService = employeeService;
+        _logger = logger;
+
     }
 
     [HttpGet]
@@ -26,8 +30,9 @@ public class EmployeeController : ControllerBase
             var employees = await _employeeService.GetAllAsync();
             return Ok(employees);
         }
-        catch
+        catch(Exception ex) 
         {
+            _logger.LogError(ex, "Error occurred while getting all employess.");
             return StatusCode(500);
         }
 
@@ -42,8 +47,9 @@ public class EmployeeController : ControllerBase
             var employees = await _employeeService.GetTopTenEarliestEmpolyessAsync();
             return Ok(employees);
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while getting top earliest employess.");
             return StatusCode(500);
         }
 
@@ -58,8 +64,9 @@ public class EmployeeController : ControllerBase
             var employees = await _employeeService.GetTopHighSalaryEmployeesAsync();
             return Ok(employees);
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while getting top high salary employess.");
             return StatusCode(500);
         }
 
@@ -74,8 +81,9 @@ public class EmployeeController : ControllerBase
             var employees = await _employeeService.GetSoftDeletedEmployeesAsync();
             return Ok(employees);
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while getting soft deleted employees.");
             return StatusCode(500);
         }
 
@@ -94,8 +102,9 @@ public class EmployeeController : ControllerBase
         {
             return NotFound(ex.Message);
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while getting employee by id.");
             return BadRequest("An error occurred while processing your request.");
         }
 
@@ -112,10 +121,12 @@ public class EmployeeController : ControllerBase
         }
         catch (ArgumentNullException ex)
         {
+            _logger.LogError(ex.Message);
             return BadRequest(ex.Message);
         }
         catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return BadRequest(e.Message);
         }
     }
@@ -131,10 +142,12 @@ public class EmployeeController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
         catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return BadRequest("An error occurred while processing your request.");
         }
     }
@@ -151,14 +164,17 @@ public class EmployeeController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
         catch (ArgumentNullException ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError(ex.Message);
+            return BadRequest();
         }
         catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return BadRequest("An error occurred while processing your request.");
         }
     }

@@ -13,9 +13,12 @@ namespace EmployeePortalWebAPI.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
-    public UserController(IUserService userService)
+    private readonly ILogger<UserController> _logger;
+    public UserController(IUserService userService, ILogger<UserController> logger)
     {
         _userService = userService;
+        _logger = logger;
+
     }
 
 
@@ -28,8 +31,9 @@ public class UserController : ControllerBase
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
-        catch
+        catch(Exception ex) 
         {
+            _logger.LogError(ex.Message);
             return StatusCode(500);
         }
     }

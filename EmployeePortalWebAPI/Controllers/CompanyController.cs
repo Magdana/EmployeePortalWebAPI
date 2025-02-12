@@ -16,9 +16,12 @@ namespace EmployeePortalWebAPI.Controllers;
 public class CompanyController : ControllerBase
 {
     private readonly ICompanyService _companyService;
-    public CompanyController(ICompanyService companyService)
+    private readonly ILogger<CompanyController> _logger;
+    public CompanyController(ICompanyService companyService, ILogger<CompanyController> logger)
     {
         _companyService = companyService;
+        _logger = logger;
+
     }
 
     [HttpGet]
@@ -30,8 +33,9 @@ public class CompanyController : ControllerBase
             var companies = await _companyService.GetAllAsync();
             return Ok(companies);
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex.Message);
             return StatusCode(500);
         }
 
@@ -48,10 +52,12 @@ public class CompanyController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
-        catch
+        catch(Exception ex)
         {
+            _logger.LogError(ex.Message);
             return BadRequest("An error occurred while processing your request.");
         }
 
@@ -74,10 +80,12 @@ public class CompanyController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
-        catch
+        catch (Exception ex)
         {
+            _logger.LogError(ex.Message);
             return BadRequest("An error occurred while processing your request.");
         }
     }
@@ -94,11 +102,13 @@ public class CompanyController : ControllerBase
         }
         catch (ArgumentNullException ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError(ex.Message);
+            return BadRequest();
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            _logger.LogError(e.Message);
+            return BadRequest();
         }
     }
 
@@ -114,10 +124,12 @@ public class CompanyController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
         catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return BadRequest("An error occurred while processing your request.");
         }
     }
@@ -135,14 +147,17 @@ public class CompanyController : ControllerBase
         }
         catch (KeyNotFoundException ex)
         {
-            return NotFound(ex.Message);
+            _logger.LogError(ex.Message);
+            return NotFound();
         }
         catch (ArgumentNullException ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError(ex.Message);
+            return BadRequest();
         }
         catch (Exception e)
         {
+            _logger.LogError(e.Message);
             return BadRequest("An error occurred while processing your request.");
         }
     }
