@@ -4,6 +4,7 @@ using EmployeePortalWebAPI.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeePortalWebAPI.Migrations
 {
     [DbContext(typeof(EmpolyeePortalDbContext))]
-    partial class EmpolyeePortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250210193014_addUserEntity")]
+    partial class addUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,9 +104,6 @@ namespace EmployeePortalWebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -122,10 +121,6 @@ namespace EmployeePortalWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
-
                     b.ToTable("Users");
                 });
 
@@ -139,23 +134,9 @@ namespace EmployeePortalWebAPI.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("EmployeePortalWebAPI.Entities.UserEntity", b =>
-                {
-                    b.HasOne("EmployeePortalWebAPI.Entities.EmployeeEntity", "Employee")
-                        .WithOne("User")
-                        .HasForeignKey("EmployeePortalWebAPI.Entities.UserEntity", "EmployeeId");
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("EmployeePortalWebAPI.Entities.CompanyEntity", b =>
                 {
                     b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("EmployeePortalWebAPI.Entities.EmployeeEntity", b =>
-                {
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

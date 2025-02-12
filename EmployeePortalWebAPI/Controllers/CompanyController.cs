@@ -2,6 +2,7 @@
 using EmployeePortalWebAPI.Entities;
 using EmployeePortalWebAPI.Services.IServices;
 using EmployeePortalWebAPI.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -9,6 +10,7 @@ using System.Text.Json;
 
 namespace EmployeePortalWebAPI.Controllers;
 
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class CompanyController : ControllerBase
@@ -20,6 +22,7 @@ public class CompanyController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<List<CompanyEntity>>> GetAllCompanies()
     {
         try
@@ -35,6 +38,7 @@ public class CompanyController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<CompanyEntity>> GetCompanyById(Guid id)
     {
         try
@@ -54,6 +58,7 @@ public class CompanyController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetCompaniyWithEmployeesAsync(Guid id)
     {
         try
@@ -79,6 +84,7 @@ public class CompanyController : ControllerBase
 
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CompanyEntity>> AddCompany(CompanyDTOes.CompanyAddDTO entity)
     {
         try
@@ -98,6 +104,7 @@ public class CompanyController : ControllerBase
 
 
     [HttpPut]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<CompanyEntity>> UpdateCompany(Guid id, CompanyDTOes.CompanyUpdateDTO entity)
     {
         try
@@ -117,6 +124,7 @@ public class CompanyController : ControllerBase
 
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
 
     public async Task<ActionResult<string>> DeleteCompany(Guid id)
     {

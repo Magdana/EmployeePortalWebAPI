@@ -1,11 +1,12 @@
 ﻿using EmployeePortalWebAPI.DTOes;
 using EmployeePortalWebAPI.Entities;
 using EmployeePortalWebAPI.Services.IServices;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeePortalWebAPI.Controllers;
 
+[Authorize]
 [Route("api/[controller]/[action]")]
 [ApiController]
 public class EmployeeController : ControllerBase
@@ -17,6 +18,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "User,Manager,Admin")]
     public async Task<ActionResult<List<EmployeeEntity>>> GetAllEmployes()
     {
         try
@@ -32,6 +34,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<List<EmployeeEntity>>> GetTopTenEarliestEmpolyessAsync()
     {
         try
@@ -47,6 +50,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<List<EmployeeEntity>>> GetTopHighSalaryEmployeesAsync()
     {
         try
@@ -62,6 +66,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<List<EmployeeEntity>>> GetSoftDeletedEmployeesAsync()
     {
         try
@@ -77,6 +82,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize(Roles = "User,Manager,Admin")]
     public async Task<ActionResult<EmployeeEntity>> GetEmployeeById(Guid id)
     {
         try
@@ -96,6 +102,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<EmployeeEntity>> AddEmployee(EmployeeDTOes.EmployeeAddDTO entity)
     {
         try
@@ -114,6 +121,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Manager,Admin")]
     public async Task<ActionResult<EmployeeEntity>> UpdateEmployee(Guid id, EmployeeDTOes.EmployeeUpdateDTO entity)
     {
         try
@@ -132,6 +140,7 @@ public class EmployeeController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Manager,Admin")]
 
     public async Task<ActionResult<string>> DeleteEmployee(Guid id)
     {

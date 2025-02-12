@@ -4,6 +4,7 @@ using EmployeePortalWebAPI.DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeePortalWebAPI.Migrations
 {
     [DbContext(typeof(EmpolyeePortalDbContext))]
-    partial class EmpolyeePortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250211102029_addOneToOneConnectionOfUserAndEmployee")]
+    partial class addOneToOneConnectionOfUserAndEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +104,7 @@ namespace EmployeePortalWebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("EmployeeId")
+                    b.Property<Guid?>("EmployeeEntityId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<byte[]>("PasswordHash")
@@ -122,9 +124,9 @@ namespace EmployeePortalWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
+                    b.HasIndex("EmployeeEntityId")
                         .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
+                        .HasFilter("[EmployeeEntityId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -141,11 +143,11 @@ namespace EmployeePortalWebAPI.Migrations
 
             modelBuilder.Entity("EmployeePortalWebAPI.Entities.UserEntity", b =>
                 {
-                    b.HasOne("EmployeePortalWebAPI.Entities.EmployeeEntity", "Employee")
+                    b.HasOne("EmployeePortalWebAPI.Entities.EmployeeEntity", "employee")
                         .WithOne("User")
-                        .HasForeignKey("EmployeePortalWebAPI.Entities.UserEntity", "EmployeeId");
+                        .HasForeignKey("EmployeePortalWebAPI.Entities.UserEntity", "EmployeeEntityId");
 
-                    b.Navigation("Employee");
+                    b.Navigation("employee");
                 });
 
             modelBuilder.Entity("EmployeePortalWebAPI.Entities.CompanyEntity", b =>

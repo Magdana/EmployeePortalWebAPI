@@ -18,4 +18,5 @@ public class EmployeeEntity
     public DateTime? UpdatedAt { get; set; }
     public DateTime? DeletedAt { get; set; }
     public bool IsDeleted { get; set; } = false;
+    public UserEntity? User { get; set; }
 }
