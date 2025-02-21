@@ -23,7 +23,7 @@ public class EmployeeController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "User,Manager,Admin")]
-    public async Task<ActionResult<List<EmployeeEntity>>> GetAllEmployes()
+    public async Task<ActionResult<List<EmployeeEntity>>> GetAllEmployees()
     {
         try
         {
@@ -40,7 +40,7 @@ public class EmployeeController : ControllerBase
 
     [HttpGet]
     [Authorize(Roles = "Manager,Admin")]
-    public async Task<ActionResult<List<EmployeeEntity>>> GetTopTenEarliestEmpolyessAsync()
+    public async Task<ActionResult<List<EmployeeEntity>>> GetTopTenEarliestEmpolyeesAsync()
     {
         try
         {
