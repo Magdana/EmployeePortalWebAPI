@@ -9,7 +9,9 @@ public class AutoMapperProfile : Profile
     public AutoMapperProfile()
     {
         CreateMap<EmployeeEntity, UserDTO.UserInfoDTO>();
+        CreateMap<UserEntity, UserDTO.UserEditGetDTO>();
         CreateMap<EmployeeEntity, EmployeeDTOes.EmployeeDetailInfoDTO>();
+        CreateMap<EpicEntity, EpicDTOes.GetEpicDTO>();
     }
 
 }

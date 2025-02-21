@@ -27,6 +27,8 @@ builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEpicRepository, EpicRepository>();
+builder.Services.AddScoped<IEpicService, EpicService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -40,13 +42,6 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
-    });
-    options.MapType<UserRole>(() => new Microsoft.OpenApi.Models.OpenApiSchema
-    {
-        Type = "string",
-        Enum = Enum.GetNames(typeof(UserRole))
-            .Select(name => new Microsoft.OpenApi.Any.OpenApiString(name))
-            .ToList<Microsoft.OpenApi.Any.IOpenApiAny>()
     });
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
