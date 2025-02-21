@@ -10,4 +10,6 @@ public interface IUserService
     Task<UserEntity> RegisterAsync(UserDTO.UserRegisterDTO request, UserRole role);
     Task<List<UserDTO.UserInfoDTO>> GetAllUsersAsync();
     Task<EmployeeDetailInfoDTO> GetUserDetailedInfoAsync(string id);
+    Task DeleteUserAsync(Guid id);
+    Task<UserDTO.UserEditGetDTO> EditUserAsync(string userName, UserDTO.UserEditDTO user);
 }

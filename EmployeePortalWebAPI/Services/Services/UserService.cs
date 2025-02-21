@@ -2,6 +2,7 @@
 using EmployeePortalWebAPI.DTOes;
 using EmployeePortalWebAPI.Entities;
 using EmployeePortalWebAPI.Repositories.IRepositories;
+using EmployeePortalWebAPI.Repositories.Repositories;
 using EmployeePortalWebAPI.Services.IServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -86,5 +87,21 @@ public class UserService : IUserService
         var mappedEmployeeEntity = _mapper.Map<EmployeeDTOes.EmployeeDetailInfoDTO>(employee);
         return mappedEmployeeEntity;
     }
+
+    public async Task DeleteUserAsync(Guid id)
+    {
+        await _userRepository.DeleteUserAsync(id);
+    }
+  public async Task<UserDTO.UserEditGetDTO> EditUserAsync(string userName, UserDTO.UserEditDTO user)
+    {
+        var userToUpdate = await _userRepository.GetByUsernameAsync(userName);
+        if (userToUpdate == null) throw new KeyNotFoundException($"Entity not found.");
+        if (user == null) throw new ArgumentNullException();
+        userToUpdate.Role = user?.Role ?? userToUpdate.Role;
+        await _userRepository.EditUserAsync(userToUpdate);
+        var mappedUser=_mapper.Map<UserDTO.UserEditGetDTO>(userToUpdate);
+        return mappedUser;
+    }
+
 }
 

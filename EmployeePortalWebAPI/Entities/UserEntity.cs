@@ -17,12 +17,7 @@ public class UserEntity
 }
 public enum UserRole
 {
-    [EnumMember(Value = "User")]
     User,
-
-    [EnumMember(Value = "Manager")]
     Manager,
-
-    [EnumMember(Value = "Admin")]
     Admin
 }

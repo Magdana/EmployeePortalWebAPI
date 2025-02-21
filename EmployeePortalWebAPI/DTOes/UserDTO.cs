@@ -1,4 +1,6 @@
-﻿namespace EmployeePortalWebAPI.DTOes;
+﻿using EmployeePortalWebAPI.Entities;
+
+namespace EmployeePortalWebAPI.DTOes;
 
 public class UserDTO
 {
@@ -16,5 +18,14 @@ public class UserDTO
     public class UserInfoDTO
     {
         public string? Name { get; set; }
+    }
+    public class UserEditDTO
+    {
+        public UserRole Role { get; set; } = UserRole.User;
+    }
+    public class UserEditGetDTO
+    {
+        public string UserName { get; set; }
+        public UserRole Role { get; set; }
     }
 }

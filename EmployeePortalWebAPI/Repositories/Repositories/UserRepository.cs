@@ -36,4 +36,17 @@ public class UserRepository : IUserRepository
         var employeeId = user.EmployeeId.Value;
         return employeeId;
     }
+    public async Task DeleteUserAsync(Guid id)
+    {
+        var user = _empolyeePortalDbContext.Users.Where(e => e.Id == id).FirstOrDefault();
+        if (user == null) throw new KeyNotFoundException("user not found!");
+        _empolyeePortalDbContext.Users.Remove(user);
+        await _empolyeePortalDbContext.SaveChangesAsync();
+    }
+    public async Task<UserEntity> EditUserAsync(UserEntity user)
+    {
+        _empolyeePortalDbContext.Users.Update(user);
+        await _empolyeePortalDbContext.SaveChangesAsync();
+        return user;
+    }
 }

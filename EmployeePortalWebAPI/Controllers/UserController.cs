@@ -1,5 +1,7 @@
 ﻿using EmployeePortalWebAPI.DTOes;
+using EmployeePortalWebAPI.Entities;
 using EmployeePortalWebAPI.Services.IServices;
+using EmployeePortalWebAPI.Services.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +33,7 @@ public class UserController : ControllerBase
             var users = await _userService.GetAllUsersAsync();
             return Ok(users);
         }
-        catch(Exception ex) 
+        catch (Exception ex)
         {
             _logger.LogError(ex.Message);
             return StatusCode(500);
@@ -51,5 +53,52 @@ public class UserController : ControllerBase
             return NotFound("User not found.");
 
         return Ok(userInfo);
+    }
+
+    [HttpDelete]
+    [Authorize(Roles = "Manager,Admin")]
+    public async Task<ActionResult<string>> DeleteUser(Guid id)
+    {
+        try
+        {
+            await _userService.DeleteUserAsync(id);
+            return Ok("Deleted successfully!");
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _logger.LogError(ex.Message);
+            return NotFound();
+        }
+        catch (ArgumentNullException ex)
+        {
+            _logger.LogError(ex.Message);
+            return BadRequest();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return BadRequest("An error occurred while processing your request.");
+        }
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Admin")]
+    public async Task<ActionResult<UserDTO.UserEditGetDTO>> UpdateUserRole(string userName, UserDTO.UserEditDTO user)
+    {
+        try
+        {
+            var updatedUser = await _userService.EditUserAsync(userName, user);
+            return Ok(updatedUser);
+        }
+        catch (KeyNotFoundException ex)
+        {
+            _logger.LogError(ex.Message);
+            return NotFound();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e.Message);
+            return BadRequest("An error occurred while processing your request.");
+        }
     }
 }
